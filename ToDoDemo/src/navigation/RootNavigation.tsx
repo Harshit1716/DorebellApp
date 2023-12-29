@@ -13,19 +13,29 @@ import AuthNavigation from './AuthStack';
 import BottomTab from './BottomTab';
 import EditAddress from '../screens/manageAddress/EditAddress';
 import CustomBottomTab from './CustomBottomTab';
+import {useAppSelector} from '../stateManagemer/Store';
 
 const RootStack = createNativeStackNavigator();
 const RootNavigation = () => {
+  const token = useAppSelector(state => state.loginReducer.token);
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{headerShown: false}}>
-        <RootStack.Screen name="AuthNavigation" component={AuthNavigation} />
-        <RootStack.Screen name="AppNavigation" component={CustomBottomTab} />
-        <RootStack.Screen name="Address" component={ManageAddress} />
-        <RootStack.Screen name="EditAddress" component={EditAddress} />
-        <RootStack.Screen name="Subscription" component={Subscription} />
-        <RootStack.Screen name="Settings" component={Settings} />
-        <RootStack.Screen name="EditProfile" component={EditProfile} />
+        {!token || token == '' ? (
+          <RootStack.Screen name="AuthNavigation" component={AuthNavigation} />
+        ) : (
+          <>
+            <RootStack.Screen
+              name="AppNavigation"
+              component={CustomBottomTab}
+            />
+            <RootStack.Screen name="Address" component={ManageAddress} />
+            <RootStack.Screen name="EditAddress" component={EditAddress} />
+            <RootStack.Screen name="Subscription" component={Subscription} />
+            <RootStack.Screen name="Settings" component={Settings} />
+            <RootStack.Screen name="EditProfile" component={EditProfile} />
+          </>
+        )}
       </RootStack.Navigator>
     </NavigationContainer>
   );

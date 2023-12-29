@@ -5,7 +5,6 @@ import {COLORS, FONTS, ICONS, SIZES} from '../../resources';
 import CustomCard from '../../components/CustomCard';
 
 const HomeScreen = ({navigation}: any) => {
-  Alert.alert('HOME');
   return (
     <ScrollView style={styles.container}>
       <View style={{...styles.container}}>

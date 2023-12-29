@@ -1,6 +1,6 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import EncryptedStorage from 'react-native-encrypted-storage';
-// import Constants, {storageKeys} from '../Resources/Constants';
+import Constants, { storageKeys } from '../Resources/Constants';
 
 export default class URLService {
   request?: RequestInit;

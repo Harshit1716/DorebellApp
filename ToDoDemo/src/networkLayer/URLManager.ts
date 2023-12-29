@@ -3,14 +3,7 @@ import { EndPoints, baseUrl } from '../resources/Constants';
 import { loginRequestType, signUpRequestType } from './Modals';
 
 export default class URLManager {
-  getData(data: number) {
-    let urlService = new URLService();
-    let urlPath = baseUrl + EndPoints.GETDATAENDPOINT + `${data}.json`;
-    console.log(urlPath);
-    return urlService
-      .fetchAsyncData(urlPath, data, 'GET')
-      .then((res: any) => res);
-  }
+
   login(data: loginRequestType) {
     let urlService = new URLService();
     let urlPath = baseUrl + EndPoints.LOGIN_END_POINT;

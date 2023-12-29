@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -14,11 +16,32 @@ import {COLORS, ICONS, SIZES} from '../../resources';
 import {FONTS} from '../../resources';
 import Button from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomInput';
+import {useAppDispatch, useAppSelector} from '../../stateManagemer/Store';
+import {doLogin} from '../../stateManagemer/slice/LoginSlice';
 
 const Login = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(state => state.loginReducer.isLoading);
 
+  const validate = () => {
+    // let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+    // if (!email || email == '') {
+    //   Alert.alert('Error', 'Enter a valid email');
+    //   return false;
+    // }
+    // if (reg.test(email) === false) {
+    //   Alert.alert('Error', 'Enter a valid email');
+    //   return false;
+    // }
+    // if (!password || password == '') {
+    //   Alert.alert('Error', 'Enter a valid password');
+    //   return false;
+    // }
+    return true;
+  };
   const socialLogin = () => {
     return (
       <View
@@ -86,6 +109,12 @@ const Login = ({navigation}: any) => {
       </View>
     );
   };
+  const handleLoginPressed = async () => {
+    const res = await validate();
+    if (res) {
+      dispatch(doLogin({email, password}));
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -130,9 +159,7 @@ const Login = ({navigation}: any) => {
             </Text>
           </TouchableOpacity>
           <Button
-            onPress={() => {
-              navigation.navigate('AppNavigation');
-            }}
+            onPress={handleLoginPressed}
             title="Login"
             borderColor={COLORS.mainBlack}
             filled
@@ -177,6 +204,38 @@ const Login = ({navigation}: any) => {
             </Pressable>
           </View>
         </View>
+        {isLoading && (
+          <View
+            style={{
+              position: 'absolute',
+              flex: 1,
+              height: SIZES.height,
+              width: SIZES.width,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <View
+              style={{
+                height: SIZES.height * 0.15,
+                width: '50%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: COLORS.primary,
+                borderRadius: 20,
+                borderColor: '#3912741A',
+                margin: 20,
+                shadowColor: '#000',
+                shadowOffset: {width: 1, height: 2},
+                shadowOpacity: 0.4,
+                shadowRadius: 3,
+              }}>
+              <ActivityIndicator size="large" color={COLORS.white} />
+              <Text style={{color: COLORS.white, marginTop: 10, ...FONTS.h3m}}>
+                Loading....
+              </Text>
+            </View>
+          </View>
+        )}
       </SafeAreaView>
     </ScrollView>
   );

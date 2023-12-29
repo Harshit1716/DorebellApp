@@ -7,7 +7,7 @@ export const kHEADERLANGUAGE = 'en_US';
 export const kCLIENTVERSION = '1.2.1:' + platform;
 
 export const baseUrl =
-  'https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api';
+  'https://referandearn.eaccords.com/doorbelApi/';
 // Used for async storage
 export const storageKeys = {
   kTOKEN: 'token',
@@ -19,8 +19,8 @@ export const storageKeys = {
 
 export const EndPoints = {
   GETDATAENDPOINT: '/id/',
-  LOGIN_END_POINT: '/id/',
-  SIGN_UP_END_POINT: '/id/',
+  LOGIN_END_POINT: 'auth/signin',
+  SIGN_UP_END_POINT: 'auth/signup',
 };
 
 export default {
