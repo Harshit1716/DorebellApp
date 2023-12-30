@@ -15,13 +15,83 @@ import {COLORS, ICONS, SIZES} from '../../resources';
 import {FONTS} from '../../resources';
 import Button from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomInput';
+import {useAppDispatch, useAppSelector} from '../../stateManagemer/Store';
+import {doSignUp} from '../../stateManagemer/slice/LoginSlice';
+import {SignUpResponse, signUpRequestType} from '../../networkLayer/Modals';
+import URLManager from '../../networkLayer/URLManager';
 
 const Register = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(state => state.loginReducer.isLoading);
+  const userEmail = useAppSelector(state => state.loginReducer.email);
 
+  const validate = () => {
+    // let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+
+    // if (!email || email == '') {
+    //   Alert.alert('Error', 'Enter a valid email');
+    //   return false;
+    // }
+    // if (reg.test(email) === false) {
+    //   Alert.alert('Error', 'Enter a valid email');
+    //   return false;
+    // }
+    // if (!password || password == '') {
+    //   Alert.alert('Error', 'Enter a valid password');
+    //   return false;
+    // }
+    return true;
+  };
+  const navigateToLogin = () => {
+    setName('');
+    setPhone('');
+    setPassword('');
+    setEmail('');
+    navigation.navigate('Login');
+  };
+  const handleSignUpPressed = async () => {
+    const res = await validate();
+    if (res) {
+      const body: signUpRequestType = {
+        first_name: name,
+        last_name: phone,
+        email,
+        password,
+      };
+      let urlManager = new URLManager();
+      return urlManager
+        .signUp(body)
+        .then(res => {
+          return res.json() as Promise<SignUpResponse>;
+        })
+        .then(res => {
+          if (!res.hasError) {
+            console.log(res);
+
+            Alert.alert(
+              'Succes',
+              res.message,
+              [{text: 'OK', onPress: navigateToLogin}],
+              {
+                cancelable: true,
+              },
+            );
+          } else {
+            console.log(res);
+            Alert.alert('Error', res?.error + '');
+          }
+        })
+        .catch(e => {
+          Alert.alert(e.name, e.message);
+          return e.response;
+        })
+        .finally(() => {});
+    }
+  };
   const socialLogin = () => {
     return (
       <View
@@ -102,7 +172,7 @@ const Register = ({navigation}: any) => {
           </View>
 
           <CustomTextInput
-            placeholder={'Name'}
+            placeholder={'First Name'}
             value={name}
             onChangeText={(text: string) => {
               setName(text);
@@ -111,7 +181,7 @@ const Register = ({navigation}: any) => {
             keyboardType="default" // You can pass any TextInput props
           />
           <CustomTextInput
-            placeholder={'Phone'}
+            placeholder={'Last Name'}
             value={phone}
             onChangeText={(text: string) => {
               setPhone(text);
@@ -139,7 +209,7 @@ const Register = ({navigation}: any) => {
           />
 
           <Button
-            onPress={() => Alert.alert('register Pressed')}
+            onPress={handleSignUpPressed}
             title="Sign Up"
             borderColor={COLORS.mainBlack}
             filled

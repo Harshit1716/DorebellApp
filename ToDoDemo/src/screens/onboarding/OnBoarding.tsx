@@ -1,14 +1,19 @@
 import {
+  Animated,
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {COLORS, FONTS, SIZES} from '../../resources';
+import OnBoardingComponent from '../../components/OnBoardingComponents';
+import AnimatedDots from '../../components/AnimatedDots';
 
 const OnBoarding = ({navigation}: any) => {
+  const [activeIndex, setActiveIndex] = React.useState(0);
   // component to show the dots at the bottom
   const btnComponent = () => {
     return (
@@ -30,32 +35,114 @@ const OnBoarding = ({navigation}: any) => {
       </View>
     );
   };
+  const data = [
+    {
+      id: '1',
+      title: 'Ring the Bell',
+      dec: ` Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id potenti nisl
+    tellus vestibulum dictum luctus cum habitasse augue. Convallis vitae,
+    dictum justo, iaculis id. Cras a ac augue netus egestas semper varius
+    facilisis id.`,
+    },
+    {
+      id: '2',
+      title: 'Ring the Bell',
+      dec: ` Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id potenti nisl
+    tellus vestibulum dictum luctus cum habitasse augue. Convallis vitae,
+    dictum justo, iaculis id. Cras a ac augue netus egestas semper varius
+    facilisis id.`,
+    },
+    {
+      id: '3',
+      title: 'Ring the Bell',
+      dec: ` Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id potenti nisl
+    tellus vestibulum dictum luctus cum habitasse augue. Convallis vitae,
+    dictum justo, iaculis id. Cras a ac augue netus egestas semper varius
+    facilisis id.`,
+    },
+    {
+      id: '4',
+      title: 'Ring the Bell',
+      dec: ` Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id potenti nisl
+    tellus vestibulum dictum luctus cum habitasse augue. Convallis vitae,
+    dictum justo, iaculis id. Cras a ac augue netus egestas semper varius
+    facilisis id.`,
+    },
+  ];
+
+  const handleIndexChanged = index => {
+    setActiveIndex(index);
+  };
+
   return (
     // <ScrollView style={{height: SIZES.height, width: SIZES.width}}>
     <View style={styles.container}>
-      <Text style={{...FONTS.h1}}>Ring the Bell</Text>
-      <Text style={styles.description}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id potenti nisl
-        tellus vestibulum dictum luctus cum habitasse augue. Convallis vitae,
-        dictum justo, iaculis id. Cras a ac augue netus egestas semper varius
-        facilisis id.
-      </Text>
-      <View>{btnComponent()}</View>
-      <View style={styles.btnContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Login');
-          }}
-          style={styles.signInBtn}>
-          <Text style={styles.btnText}>Sign in</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Register');
-          }}
-          style={styles.registerBtn}>
-          <Text style={styles.btnText}>Register</Text>
-        </TouchableOpacity>
+      <FlatList
+        data={data}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={item => item.id}
+        renderItem={({item, index}) => (
+          <View
+            style={{
+              marginTop: SIZES.height * 0.33,
+              width: SIZES.width,
+              // justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{...FONTS.h1, textAlign: 'center', width: '70%'}}>
+              Ring the Bell
+            </Text>
+            <Text style={styles.description}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Id
+              potenti nisl tellus vestibulum dictum luctus cum habitasse augue.
+              Convallis vitae, dictum justo, iaculis id. Cras a ac augue netus
+              egestas semper varius facilisis id.
+            </Text>
+          </View>
+        )}
+        onMomentumScrollEnd={event => {
+          const newIndex = Math.round(
+            event.nativeEvent.contentOffset.x /
+              event.nativeEvent.layoutMeasurement.width,
+          );
+          handleIndexChanged(newIndex);
+        }}
+      />
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'absolute',
+          top: SIZES.height * 0.55,
+          width: SIZES.width,
+          flex: 1,
+        }}>
+        <View style={{}}>
+          <AnimatedDots
+            data={data}
+            activeIndex={activeIndex}
+            onIndexChanged={handleIndexChanged}
+          />
+        </View>
+
+        <View style={styles.btnContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Login');
+            }}
+            style={styles.signInBtn}>
+            <Text style={styles.btnText}>Sign in</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Register');
+            }}
+            style={styles.registerBtn}>
+            <Text style={styles.btnText}>Register</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
     // </ScrollView>
@@ -83,7 +170,8 @@ const styles = StyleSheet.create({
     marginTop: '10%',
     borderRadius: 10,
     width: '90%',
-    height: '7%',
+    // height: '7%',
+    height: 60,
     flexDirection: 'row',
     overflow: 'hidden',
     // backgroundColor: COLORS.black,
@@ -96,6 +184,7 @@ const styles = StyleSheet.create({
   },
   registerBtn: {
     flex: 1,
+
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLORS.primary,

@@ -25,3 +25,18 @@ export interface LoginResponseData {
     status: string;
     token: string;
 }
+
+export interface SignUpResponse {
+    data: SignUpResponseData;
+    error: null;
+    hasError: boolean;
+    message: string;
+}
+
+export interface SignUpResponseData {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    token: string;
+}

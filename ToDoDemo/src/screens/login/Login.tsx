@@ -42,6 +42,12 @@ const Login = ({navigation}: any) => {
     // }
     return true;
   };
+  const handleLoginPressed = async () => {
+    const res = await validate();
+    if (res) {
+      dispatch(doLogin({email, password}));
+    }
+  };
   const socialLogin = () => {
     return (
       <View
@@ -108,12 +114,6 @@ const Login = ({navigation}: any) => {
         </TouchableOpacity>
       </View>
     );
-  };
-  const handleLoginPressed = async () => {
-    const res = await validate();
-    if (res) {
-      dispatch(doLogin({email, password}));
-    }
   };
 
   return (

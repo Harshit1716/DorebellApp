@@ -43,17 +43,14 @@ export const doSignUp = createAsyncThunk(
             return urlManager
                 .signUp(body)
                 .then(res => {
-                    console.log(JSON.stringify(res));
-                    // Define the type or model in promise to get the desired response
                     return res.json() as Promise<any>;
                 })
-                .then(res => {
-                    return res;
-                    // if (res.status == 200) {
-                    //   return res;
-                    // } else {
-                    //   Alert.alert('Error', res.message);
-                    // }
+                .then((res) => {
+                    if (!res.hasError) {
+                        return res.data;
+                    } else {
+                        Alert.alert('Error', res?.error + "");
+                    }
                 })
                 .catch(e => {
                     Alert.alert(e.name, e.message);
@@ -122,12 +119,14 @@ export const loginSlice = createSlice({
         });
         builder.addCase(doSignUp.fulfilled, (state, action) => {
             if (action?.payload) {
-                state.email = action?.payload.email;
-                state.password = action?.payload.password;
-                state.first_name = action?.payload.first_name;
-                state.last_name = action?.payload.last_name;
+                // state.email = action?.payload?.email ?? "";
+                // state.password = action?.payload?.password ?? "";
+                // state.first_name = action?.payload?.first_name ?? "";
+                // state.last_name = action?.payload?.last_name ?? "";
+                // state.id = action?.payload?.id ?? -1;
+                // state.token = action?.payload?.token ?? "";
             }
-            console.log(action.payload);
+            state.isLoading = false
         });
         builder.addCase(doSignUp.rejected, (state, action) => {
             Alert.alert('Error', 'something went wrong');
