@@ -18,6 +18,7 @@ import Button from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomInput';
 import {useAppDispatch, useAppSelector} from '../../stateManagemer/Store';
 import {doLogin} from '../../stateManagemer/slice/LoginSlice';
+import Loader from '../../components/Loader';
 
 const Login = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -26,20 +27,20 @@ const Login = ({navigation}: any) => {
   const isLoading = useAppSelector(state => state.loginReducer.isLoading);
 
   const validate = () => {
-    // let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
-    // if (!email || email == '') {
-    //   Alert.alert('Error', 'Enter a valid email');
-    //   return false;
-    // }
-    // if (reg.test(email) === false) {
-    //   Alert.alert('Error', 'Enter a valid email');
-    //   return false;
-    // }
-    // if (!password || password == '') {
-    //   Alert.alert('Error', 'Enter a valid password');
-    //   return false;
-    // }
+    if (!email || email == '') {
+      Alert.alert('Error', 'Enter a valid email');
+      return false;
+    }
+    if (reg.test(email) === false) {
+      Alert.alert('Error', 'Enter a valid email');
+      return false;
+    }
+    if (!password || password == '') {
+      Alert.alert('Error', 'Enter a valid password');
+      return false;
+    }
     return true;
   };
   const handleLoginPressed = async () => {
@@ -142,10 +143,14 @@ const Login = ({navigation}: any) => {
             onChangeText={(text: string) => {
               setPassword(text);
             }}
+            password={true}
             style={{backgroundColor: COLORS.white}} // You can pass additional styles
             keyboardType="default" // You can pass any TextInput props
           />
           <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ForgetPassword');
+            }}
             style={{
               marginTop: 10,
               borderBottomWidth: 1,
@@ -184,7 +189,9 @@ const Login = ({navigation}: any) => {
                 marginHorizontal: 10,
               }}
             />
-            <Text style={{...FONTS.bodySemi4}}>Or sign in with</Text>
+            <Text style={{...FONTS.bodySemi4, color: COLORS.black}}>
+              Or sign in with
+            </Text>
             <View
               style={{
                 flex: 1,
@@ -204,38 +211,7 @@ const Login = ({navigation}: any) => {
             </Pressable>
           </View>
         </View>
-        {isLoading && (
-          <View
-            style={{
-              position: 'absolute',
-              flex: 1,
-              height: SIZES.height,
-              width: SIZES.width,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <View
-              style={{
-                height: SIZES.height * 0.15,
-                width: '50%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: COLORS.primary,
-                borderRadius: 20,
-                borderColor: '#3912741A',
-                margin: 20,
-                shadowColor: '#000',
-                shadowOffset: {width: 1, height: 2},
-                shadowOpacity: 0.4,
-                shadowRadius: 3,
-              }}>
-              <ActivityIndicator size="large" color={COLORS.white} />
-              <Text style={{color: COLORS.white, marginTop: 10, ...FONTS.h3m}}>
-                Loading....
-              </Text>
-            </View>
-          </View>
-        )}
+        {isLoading && <Loader />}
       </SafeAreaView>
     </ScrollView>
   );

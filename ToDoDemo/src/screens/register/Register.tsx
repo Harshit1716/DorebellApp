@@ -19,33 +19,56 @@ import {useAppDispatch, useAppSelector} from '../../stateManagemer/Store';
 import {doSignUp} from '../../stateManagemer/slice/LoginSlice';
 import {SignUpResponse, signUpRequestType} from '../../networkLayer/Modals';
 import URLManager from '../../networkLayer/URLManager';
+import Loader from '../../components/Loader';
 
 const Register = ({navigation}: any) => {
   const [email, setEmail] = useState('');
+
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(state => state.loginReducer.isLoading);
+  const [isLoading, setIsLoading] = useState(false);
   const userEmail = useAppSelector(state => state.loginReducer.email);
 
   const validate = () => {
-    // let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-
-    // if (!email || email == '') {
-    //   Alert.alert('Error', 'Enter a valid email');
-    //   return false;
-    // }
-    // if (reg.test(email) === false) {
-    //   Alert.alert('Error', 'Enter a valid email');
-    //   return false;
-    // }
-    // if (!password || password == '') {
-    //   Alert.alert('Error', 'Enter a valid password');
-    //   return false;
-    // }
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    var passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    if (!name || name == '' || name.length < 3) {
+      Alert.alert('Error', 'Enter a valid first name');
+      return false;
+    }
+    if (!phone || phone == '' || phone.length < 3) {
+      Alert.alert('Error', 'Enter a valid last name');
+      return false;
+    }
+    if (!email || email == '') {
+      Alert.alert('Error', 'Enter a valid email');
+      return false;
+    }
+    if (reg.test(email) === false) {
+      Alert.alert('Error', 'Enter a valid email');
+      return false;
+    }
+    if (!password || password == '') {
+      Alert.alert('Error', 'Enter a valid password');
+      return false;
+    }
+    if (passwordReg.test(password) === false) {
+      Alert.alert(
+        'InValid Password',
+        `Password must meet the following criteria:
+      - At least 8 characters in length
+      - Include at least one digit (0-9)
+      - Include at least one special character (!@#$%^&*)
+      - Include at least one lowercase letter (a-z)
+      - Include at least one uppercase letter (A-Z)`,
+      );
+      return false;
+    }
     return true;
   };
+
   const navigateToLogin = () => {
     setName('');
     setPhone('');
@@ -56,6 +79,7 @@ const Register = ({navigation}: any) => {
   const handleSignUpPressed = async () => {
     const res = await validate();
     if (res) {
+      setIsLoading(true);
       const body: signUpRequestType = {
         first_name: name,
         last_name: phone,
@@ -89,7 +113,9 @@ const Register = ({navigation}: any) => {
           Alert.alert(e.name, e.message);
           return e.response;
         })
-        .finally(() => {});
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   };
   const socialLogin = () => {
@@ -201,6 +227,7 @@ const Register = ({navigation}: any) => {
           <CustomTextInput
             placeholder={'Password'}
             value={password}
+            password={true}
             onChangeText={(text: string) => {
               setPassword(text);
             }}
@@ -234,7 +261,9 @@ const Register = ({navigation}: any) => {
                 marginHorizontal: 10,
               }}
             />
-            <Text style={{...FONTS.bodySemi4}}>Or sign up with</Text>
+            <Text style={{...FONTS.bodySemi4, color: COLORS.darkGray}}>
+              Or sign up with
+            </Text>
             <View
               style={{
                 flex: 1,
@@ -254,6 +283,7 @@ const Register = ({navigation}: any) => {
             </Pressable>
           </View>
         </View>
+        {isLoading && <Loader />}
       </SafeAreaView>
     </ScrollView>
   );

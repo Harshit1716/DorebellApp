@@ -84,7 +84,7 @@ export default function CustomBottomTab() {
           }}
         />
         <Tab.Screen
-          name="Subscription"
+          name="Scan"
           component={Home}
           options={{
             tabBarIcon: ({focused}) => {
@@ -112,7 +112,7 @@ export default function CustomBottomTab() {
           }}
         />
         <Tab.Screen
-          name="Shop"
+          name="Subscription"
           component={Subscription}
           options={{
             tabBarIcon: ({focused}) => {

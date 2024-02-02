@@ -1,10 +1,17 @@
 import {Alert, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {COLORS, FONTS, ICONS, SIZES} from '../../resources';
 import CustomCard from '../../components/CustomCard';
+import {useAppDispatch, useAppSelector} from '../../stateManagemer/Store';
+import {getUserData} from '../../stateManagemer/slice/LoginSlice';
 
 const HomeScreen = ({navigation}: any) => {
+  const userData = useAppSelector(state => state.loginReducer);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getUserData(userData.id + ''));
+  }, []);
   return (
     <ScrollView style={styles.container}>
       <View style={{...styles.container}}>
@@ -19,8 +26,10 @@ const HomeScreen = ({navigation}: any) => {
             borderBottomColor: COLORS.lightGray,
           }}>
           <View style={{width: '80%'}}>
-            <Text style={{...FONTS.h2}}>Hello Joanne!</Text>
-            <Text style={{...FONTS.body4}}>
+            <Text style={{...FONTS.h2, color: COLORS.black}}>
+              Hello Joanne!
+            </Text>
+            <Text style={{...FONTS.body4, color: COLORS.darkGray}}>
               Welcome to Doorbell QR, your friendly neighbourhood security
             </Text>
           </View>

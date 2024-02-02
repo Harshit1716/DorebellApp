@@ -58,7 +58,6 @@ const ScanSetup = ({navigation}: any) => {
             marginBottom: 4,
             width: '90%',
             alignSelf: 'center',
-            marginTop: 5,
           }}
         />
         <View
@@ -76,8 +75,8 @@ const ScanSetup = ({navigation}: any) => {
             justifyContent: 'space-between',
           }}>
           <View style={{width: '65%'}}>
-            <Text style={{...FONTS.h3}}>Home Address</Text>
-            <Text style={{...FONTS.body5}}>
+            <Text style={{...FONTS.h3, color: COLORS.black}}>Home Address</Text>
+            <Text style={{...FONTS.body5, color: COLORS.darkGray}}>
               77 Botley Road, Middle Winterslow, SP5 3YN, United Kingdom
             </Text>
           </View>
@@ -113,6 +112,7 @@ const styles = StyleSheet.create({
     marginVertical: '6%',
     alignSelf: 'center',
     textAlign: 'center',
+    color: COLORS.black,
   },
 });
 

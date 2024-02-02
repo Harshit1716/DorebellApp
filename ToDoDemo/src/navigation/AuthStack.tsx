@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Home, Login, Onboarding, Register} from '../screens';
 import {COLORS} from '../resources';
+import {ForgetPassword} from '../screens';
 
 const AuthStack = createNativeStackNavigator();
 const AuthNavigation = () => {
@@ -13,6 +14,7 @@ const AuthNavigation = () => {
         <AuthStack.Screen name="Onboarding" component={Onboarding} />
         <AuthStack.Screen name="Login" component={Login} />
         <AuthStack.Screen name="Register" component={Register} />
+        <AuthStack.Screen name="ForgetPassword" component={ForgetPassword} />
       </AuthStack.Navigator>
       <StatusBar
         barStyle="dark-content"

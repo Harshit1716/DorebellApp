@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {COLORS} from '../resources';
 
 const CustomCard = ({imageSource, title, description, onPress}: any) => {
   return (
@@ -35,10 +36,16 @@ const CustomCard = ({imageSource, title, description, onPress}: any) => {
           source={imageSource}
         />
         <View style={{width: '80%'}}>
-          <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 5}}>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: 'bold',
+              marginBottom: 5,
+              color: COLORS.black,
+            }}>
             {title}
           </Text>
-          <Text style={{fontSize: 14}}>{description}</Text>
+          <Text style={{fontSize: 14, color: COLORS.black}}>{description}</Text>
         </View>
       </View>
     </TouchableOpacity>

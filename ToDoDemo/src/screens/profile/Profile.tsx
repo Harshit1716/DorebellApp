@@ -13,11 +13,12 @@ import React, {useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {COLORS, FONTS, ICONS, SIZES} from '../../resources';
 import CustomCard from '../../components/CustomCard';
+import {useAppSelector} from '../../stateManagemer/Store';
 
 const Profile = ({navigation}: any) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+  const profileData = useAppSelector(state => state.loginReducer);
   const profileCard = () => {
     return (
       <View
@@ -45,7 +46,7 @@ const Profile = ({navigation}: any) => {
                 fontWeight: '700',
                 color: COLORS.black,
               }}>
-              Joanne Weasley
+              {profileData?.first_name + ' ' + profileData?.last_name}
             </Text>
             <View
               style={{
@@ -59,7 +60,7 @@ const Profile = ({navigation}: any) => {
                   fontWeight: '600',
                   color: COLORS.black,
                 }}>
-                Location:{' '}
+                Location:
               </Text>
               <Text style={{...FONTS.body5, color: COLORS.black}}>
                 London, United Kingdom
@@ -94,6 +95,7 @@ const Profile = ({navigation}: any) => {
             </View>
             <TouchableOpacity
               onPress={() => {
+                console.log(profileData);
                 //   navigation.navigate('EditAddress');
               }}
               style={{
@@ -147,7 +149,15 @@ const Profile = ({navigation}: any) => {
             borderBlockColor: COLORS.lightGray,
             alignItems: 'center',
           }}>
-          <Text style={{...FONTS.body4, flex: 1}}> Edit Profile</Text>
+          <Text
+            style={{
+              ...FONTS.body4,
+              flex: 1,
+              color: COLORS.black,
+              color: COLORS.black,
+            }}>
+            Edit Profile
+          </Text>
           <Image
             resizeMode="contain"
             style={{height: 12, width: 12}}
@@ -163,7 +173,15 @@ const Profile = ({navigation}: any) => {
             borderBlockColor: COLORS.lightGray,
             alignItems: 'center',
           }}>
-          <Text style={{...FONTS.body4, flex: 1}}> Manage Addresses</Text>
+          <Text
+            style={{
+              ...FONTS.body4,
+              flex: 1,
+              color: COLORS.black,
+              color: COLORS.black,
+            }}>
+            Manage Addresses
+          </Text>
           <Image
             resizeMode="contain"
             style={{height: 12, width: 12}}
@@ -180,7 +198,15 @@ const Profile = ({navigation}: any) => {
             borderBlockColor: COLORS.lightGray,
             alignItems: 'center',
           }}>
-          <Text style={{...FONTS.body4, flex: 1}}> Title</Text>
+          <Text
+            style={{
+              ...FONTS.body4,
+              flex: 1,
+              color: COLORS.black,
+              color: COLORS.black,
+            }}>
+            Title
+          </Text>
           <Image
             resizeMode="contain"
             style={{height: 12, width: 12}}
@@ -213,7 +239,9 @@ const Profile = ({navigation}: any) => {
             borderBlockColor: COLORS.lightGray,
             alignItems: 'center',
           }}>
-          <Text style={{...FONTS.body4, flex: 1}}> Ring History</Text>
+          <Text style={{...FONTS.body4, flex: 1, color: COLORS.black}}>
+            Ring History
+          </Text>
           <Image
             resizeMode="contain"
             style={{height: 12, width: 12}}
@@ -229,7 +257,9 @@ const Profile = ({navigation}: any) => {
             borderBlockColor: COLORS.lightGray,
             alignItems: 'center',
           }}>
-          <Text style={{...FONTS.body4, flex: 1}}> Notification Alert</Text>
+          <Text style={{...FONTS.body4, flex: 1, color: COLORS.black}}>
+            Notification Alert
+          </Text>
           <Switch
             trackColor={{false: COLORS.gray, true: COLORS.primary}}
             thumbColor={isEnabled ? COLORS.white : COLORS.white}
@@ -269,7 +299,9 @@ const Profile = ({navigation}: any) => {
             borderBlockColor: COLORS.lightGray,
             alignItems: 'center',
           }}>
-          <Text style={{...FONTS.body4, flex: 1}}> Language</Text>
+          <Text style={{...FONTS.body4, flex: 1, color: COLORS.black}}>
+            Language
+          </Text>
           <Image
             resizeMode="contain"
             style={{height: 12, width: 12}}
@@ -286,7 +318,9 @@ const Profile = ({navigation}: any) => {
             borderBlockColor: COLORS.lightGray,
             alignItems: 'center',
           }}>
-          <Text style={{...FONTS.body4, flex: 1}}> Support </Text>
+          <Text style={{...FONTS.body4, flex: 1, color: COLORS.black}}>
+            Support
+          </Text>
           <Image
             resizeMode="contain"
             style={{height: 12, width: 12}}
@@ -306,7 +340,9 @@ const Profile = ({navigation}: any) => {
             borderBlockColor: COLORS.lightGray,
             alignItems: 'center',
           }}>
-          <Text style={{...FONTS.body4, flex: 1}}> Settings </Text>
+          <Text style={{...FONTS.body4, flex: 1, color: COLORS.black}}>
+            Settings
+          </Text>
           <Image
             resizeMode="contain"
             style={{height: 12, width: 12}}

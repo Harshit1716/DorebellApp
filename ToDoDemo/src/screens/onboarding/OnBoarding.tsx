@@ -91,7 +91,13 @@ const OnBoarding = ({navigation}: any) => {
               // justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{...FONTS.h1, textAlign: 'center', width: '70%'}}>
+            <Text
+              style={{
+                ...FONTS.h1,
+                textAlign: 'center',
+                width: '70%',
+                color: COLORS.black,
+              }}>
               Ring the Bell
             </Text>
             <Text style={styles.description}>
@@ -115,7 +121,7 @@ const OnBoarding = ({navigation}: any) => {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'absolute',
-          top: SIZES.height * 0.55,
+          top: SIZES.height * 0.58,
           width: SIZES.width,
           flex: 1,
         }}>
@@ -164,6 +170,7 @@ const styles = StyleSheet.create({
     ...FONTS.body4,
     textAlign: 'center',
     paddingHorizontal: '5%',
+    color: COLORS.black,
     marginTop: 10,
   },
   btnContainer: {

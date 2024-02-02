@@ -44,7 +44,9 @@ const Subscription = ({navigation}: any) => {
             source={ICONS.SUBS_ALERT_ICON}
           />
           <View style={{marginTop: 15, width: '65%'}}>
-            <Text style={{...FONTS.body4, lineHeight: 20}}>Subscription:</Text>
+            <Text style={{...FONTS.body4, lineHeight: 20, color: COLORS.black}}>
+              Subscription:
+            </Text>
             <Text style={{...FONTS.h3, color: COLORS.primary}}>Free</Text>
           </View>
           <TouchableOpacity>

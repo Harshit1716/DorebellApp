@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import URLManager from '../../networkLayer/URLManager';
 import { Alert } from 'react-native';
-import { LoginResponse, signUpRequestType } from '../../networkLayer/Modals';
+import { LoginResponse, UserData, UserDataResponse, signUpRequestType } from '../../networkLayer/Modals';
 
 
 export const doLogin = createAsyncThunk(
@@ -13,9 +13,40 @@ export const doLogin = createAsyncThunk(
             return urlManager
                 .login({ email, password })
                 .then(res => {
+                    console.log(res.data)
                     return res.json() as Promise<LoginResponse>;
                 })
                 .then((res) => {
+                    console.log(res)
+                    if (!res.hasError) {
+                        return res.data;
+                    } else {
+                        Alert.alert('Error', res?.error + "");
+                    }
+                })
+                .catch(e => {
+                    Alert.alert(e.name, e.message);
+                    return e.response;
+                })
+                .finally(() => { });
+        } catch (error) {
+            Alert.alert('Error');
+        }
+    },
+);
+export const getUserData = createAsyncThunk(
+    'login/getUserData',
+    async (userId: string) => {
+        try {
+            let urlManager = new URLManager();
+            return urlManager
+                .getUserData(userId)
+                .then(res => {
+                    console.log(res.data)
+                    return res.json() as Promise<UserDataResponse>;
+                })
+                .then((res) => {
+                    console.log(res)
                     if (!res.hasError) {
                         return res.data;
                     } else {
@@ -72,6 +103,9 @@ interface UserState {
     token: string;
     id: number;
     isLoading: boolean;
+    phone: string;
+    address: string;
+    country: string
 }
 
 // Define the initial state using that type
@@ -82,7 +116,10 @@ const initialState: UserState = {
     last_name: "",
     token: "",
     id: -1,
-    isLoading: false
+    isLoading: false,
+    phone: '',
+    address: '',
+    country: ''
 }
 
 export const loginSlice = createSlice({
@@ -101,6 +138,7 @@ export const loginSlice = createSlice({
         });
         builder.addCase(doLogin.fulfilled, (state, action) => {
             if (action?.payload) {
+                console.log(action?.payload?.last_name)
                 state.email = action?.payload?.email ?? "";
                 state.password = action?.payload?.password ?? "";
                 state.first_name = action?.payload?.first_name ?? "";
@@ -130,6 +168,29 @@ export const loginSlice = createSlice({
         });
         builder.addCase(doSignUp.rejected, (state, action) => {
             Alert.alert('Error', 'something went wrong');
+        });
+        builder.addCase(getUserData.pending, (state, action) => {
+            console.log('getUserData method started');
+            state.isLoading = true
+        });
+        builder.addCase(getUserData.fulfilled, (state, action) => {
+            if (action?.payload) {
+                console.log(action?.payload?.last_name)
+                state.email = action?.payload?.email ?? "";
+                state.password = action?.payload?.password ?? "";
+                state.first_name = action?.payload?.first_name ?? "";
+                state.last_name = action?.payload?.last_name ?? "";
+                state.id = action?.payload?.id ?? -1;
+                state.phone = action?.payload?.phone ?? "";
+                state.address = action?.payload?.address ?? "";
+                state.country = action?.payload?.country ?? "";
+                // state.token = action?.payload?.token ?? "";
+            }
+            state.isLoading = false
+        });
+        builder.addCase(getUserData.rejected, (state, action) => {
+            Alert.alert('Error', 'something went wrong');
+            state.isLoading = true
         });
     },
 });

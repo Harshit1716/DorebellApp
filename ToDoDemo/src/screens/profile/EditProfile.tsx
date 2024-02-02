@@ -10,22 +10,37 @@ import {
   Alert,
   Switch,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {COLORS, ICONS, SIZES} from '../../resources';
 import {FONTS} from '../../resources';
 import Button from '../../components/CustomButton';
 import CustomTextInput from '../../components/CustomInput';
 import CustomHeader from '../../components/CustomHeader';
+import {useAppDispatch, useAppSelector} from '../../stateManagemer/Store';
+import {getUserData} from '../../stateManagemer/slice/LoginSlice';
+import Loader from '../../components/Loader';
 
 const EditProfile = ({navigation}: any) => {
-  const [title, setTitle] = useState('');
-  const [address1, setAddress1] = useState('');
-  const [address2, setAddress2] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [city, setCity] = useState('');
+  const [name, setName] = useState('');
+  const [dob, setDob] = useState('');
+  const [email, setEmail] = useState('');
+  const [mobile, setMobile] = useState('');
   const [country, setCountry] = useState('');
+  const userData = useAppSelector(state => state.loginReducer);
+  const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    dispatch(getUserData(userData.id + ''));
+  }, []);
+  useEffect(() => {
+    setName(userData.first_name + ' ' + userData.last_name);
+    setEmail(userData?.email ?? '');
+    setCountry(userData?.country ?? '');
+    setMobile(userData?.phone ?? '');
+    console.log(userData.country);
+    // setPostalCode(userData.);
+  }, [userData]);
   return (
     <View style={styles.container}>
       <CustomHeader />
@@ -78,36 +93,36 @@ const EditProfile = ({navigation}: any) => {
 
           <CustomTextInput
             placeholder={'Full Name'}
-            value={title}
+            value={name}
             onChangeText={(text: string) => {
-              setTitle(text);
+              setName(text);
             }}
             style={{backgroundColor: COLORS.white}} // You can pass additional styles
             keyboardType="default" // You can pass any TextInput props
           />
           <CustomTextInput
             placeholder={'Date of Birth*'}
-            value={address1}
+            value={dob}
             onChangeText={(text: string) => {
-              setAddress1(text);
+              setDob(text);
             }}
             style={{backgroundColor: COLORS.white}} // You can pass additional styles
             keyboardType="default" // You can pass any TextInput props
           />
           <CustomTextInput
             placeholder={'Email'}
-            value={address2}
+            value={email}
             onChangeText={(text: string) => {
-              setAddress2(text);
+              setEmail(text);
             }}
             style={{backgroundColor: COLORS.white}} // You can pass additional styles
             keyboardType="default" // You can pass any TextInput props
           />
           <CustomTextInput
             placeholder={'Mobile*'}
-            value={postalCode}
+            value={mobile}
             onChangeText={(text: string) => {
-              setPostalCode(text);
+              setMobile(text);
             }}
             style={{backgroundColor: COLORS.white}} // You can pass additional styles
             keyboardType="default" // You can pass any TextInput props
@@ -147,6 +162,7 @@ const EditProfile = ({navigation}: any) => {
           <View style={{height: SIZES.height * 0.1}}></View>
         </View>
       </ScrollView>
+      {userData.isLoading && <Loader />}
     </View>
   );
 };
