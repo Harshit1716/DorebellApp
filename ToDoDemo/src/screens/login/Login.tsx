@@ -19,10 +19,11 @@ import CustomTextInput from '../../components/CustomInput';
 import {useAppDispatch, useAppSelector} from '../../stateManagemer/Store';
 import {doLogin} from '../../stateManagemer/slice/LoginSlice';
 import Loader from '../../components/Loader';
+import auth from '@react-native-firebase/auth';
 
 const Login = ({navigation}: any) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('user@example.com');
+  const [password, setPassword] = useState('P@ssw0rd');
   const dispatch = useAppDispatch();
   const isLoading = useAppSelector(state => state.loginReducer.isLoading);
 
@@ -46,6 +47,18 @@ const Login = ({navigation}: any) => {
   const handleLoginPressed = async () => {
     const res = await validate();
     if (res) {
+      // auth()
+      //   .signInAnonymously()
+      //   .then(() => {
+      //     console.log('User signed in anonymously');
+      //   })
+      //   .catch(error => {
+      //     if (error.code === 'auth/operation-not-allowed') {
+      //       console.log('Enable anonymous in your firebase console.');
+      //     }
+
+      //     console.error(error);
+      //   });
       dispatch(doLogin({email, password}));
     }
   };

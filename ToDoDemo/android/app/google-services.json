@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "419482297293",
+    "project_id": "ringit-2db05",
+    "storage_bucket": "ringit-2db05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:419482297293:android:6d3c7b35947249076f1a84",
+        "android_client_info": {
+          "package_name": "com.tododemo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABKaVPL1NnPxXsMyOVorO36xp0jsgT1Vk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

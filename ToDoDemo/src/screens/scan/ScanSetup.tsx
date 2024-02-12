@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {COLORS, ICONS, SIZES, FONTS} from '../../resources';
 import CustomButton from '../../components/CustomButton';
+import QRCode from 'react-native-qrcode-svg';
 
 const ScanSetup = ({navigation}: any) => {
   return (
@@ -22,10 +23,13 @@ const ScanSetup = ({navigation}: any) => {
             borderWidth: 2,
             marginBottom: '2%',
           }}>
-          <Image
-            resizeMode="contain"
-            style={{height: 230, width: 230}}
-            source={ICONS.QR_ICON}
+          <QRCode
+            // logo={ICONS.PROFILE_ICON}
+            value={JSON.stringify({
+              name: 'Harry',
+              age: '12',
+            })}
+            size={200}
           />
         </View>
         <CustomButton
